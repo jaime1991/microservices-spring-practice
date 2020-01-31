@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.microservices.item.service.clients.ProductRestClient;
 import com.microservices.item.service.models.Item;
+import com.microservices.item.service.models.Product;
 
 @Service
 public class ItemServiceFeign implements ItemService {
@@ -26,6 +27,21 @@ public class ItemServiceFeign implements ItemService {
 	@Override
 	public Item findById(Long id, Integer quantity) {
 		return new Item(productRestClient.detail(id), quantity);
+	}
+	
+	@Override
+	public Product save(Product producto) {
+		return productRestClient.crear(producto);
+	}
+
+	@Override
+	public Product update(Product producto, Long id) {
+		return productRestClient.edit(producto, id);
+	}
+
+	@Override
+	public void delete(Long id) {
+		productRestClient.delete(id);
 	}
 
 }

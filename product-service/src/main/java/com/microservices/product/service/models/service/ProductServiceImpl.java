@@ -26,5 +26,18 @@ public class ProductServiceImpl implements IProductService{
 	public Product findById(Long id) {
 		return productDao.findById(id).orElse(null);
 	}
+	
+	@Override
+	@Transactional
+	public Product save(Product producto) {
+		return productDao.save(producto);
+	}
+
+	@Override
+	@Transactional
+	public void deleteById(Long id) {
+		productDao.deleteById(id);
+	}
+
 
 }
