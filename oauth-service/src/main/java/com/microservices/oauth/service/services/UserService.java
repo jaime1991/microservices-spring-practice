@@ -17,14 +17,13 @@ import com.microservices.oauth.service.clients.UserFeignClient;
 import com.microservices.oauth.service.models.entity.User;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements IUserService, UserDetailsService{
 
 	@Autowired
 	private UserFeignClient client;
 	private Logger log = LoggerFactory.getLogger(UserService.class);
 
 	@Override
-
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = client.findByUsername(username);
 
@@ -44,6 +43,11 @@ public class UserService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(
 				user.getUsername(), user.getPassword(),
 				user.getEnabled(), true, true, true, authorities);
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		return client.findByUsername(username);
 	}
 
 }
