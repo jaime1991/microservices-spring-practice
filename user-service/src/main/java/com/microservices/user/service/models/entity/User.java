@@ -35,11 +35,21 @@ public class User implements Serializable {
 
 	@Column(unique = true, length = 100)
 	private String email;
+	
+	private Integer attempts;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "user_id", "role_id" }) })
 	private List<Role> roles;
+	
+	public Integer getAttempts() {
+		return attempts;
+	}
+
+	public void setAttempts(Integer attempts) {
+		this.attempts = attempts;
+	}
 
 	public Long getId() {
 		return id;

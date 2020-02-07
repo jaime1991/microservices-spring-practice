@@ -14,6 +14,15 @@ public class User implements Serializable {
 	private String lastName;
 	private String email;
 	private List<Role> roles;
+	private Integer attempts;
+
+	public Integer getAttempts() {
+		return attempts;
+	}
+
+	public void setAttempts(Integer attempts) {
+		this.attempts = attempts;
+	}
 
 	public Long getId() {
 		return id;
