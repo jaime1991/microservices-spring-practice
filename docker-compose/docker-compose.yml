@@ -1,0 +1,91 @@
+version: '3.7'
+services:
+  config-service:
+    image: config-service:v1
+    ports:
+      - "8888:8888"
+    restart: always
+    networks:
+      - springcloud
+  eureka-server:
+    image: eureka-server:v1
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - springcloud
+  product-service:
+    image: product-service:v1
+    restart: always
+    networks:
+      - springcloud
+    depends_on: 
+      - config-service
+      - eureka-server
+  item-service:
+    image: item-service:v1
+    ports:
+      - "8002:8002"
+      - "8005:8005"
+      - "8007:8007"
+    restart: always
+    networks:
+      - springcloud
+    depends_on: 
+      - config-service
+      - eureka-server
+      - product-service
+   user-service:
+    image: user-service:v1
+    restart: always
+    networks:
+      - springcloud
+    depends_on: 
+      - config-service
+      - eureka-server
+   oauth-service:
+    image: oauth-service:v1
+    ports:
+      - "9100:9100"
+    restart: always
+    networks:
+      - springcloud
+    depends_on: 
+      - config-service
+      - eureka-server
+      - user-service
+  zuul-server:
+    image: zuul-server:v1
+    ports:
+      - "8090:8090"
+    restart: always
+    networks:
+      - springcloud
+    depends_on: 
+      - config-service
+      - eureka-server
+      - product-service
+      - item-service
+      - user-service
+      - oauth-service
+  rabbitmq-service:
+    image: rabbitmq:3.8-management-alpine
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
+    networks:
+      - springcloud
+  zipkin-server:
+    image: zipkin-server:v1
+    ports:
+      - "9411:9411"
+    restart: always
+    networks:
+      - springcloud
+    depends_on: 
+      - rabbitmq-service
+    environment: 
+      RABBIT_ADDRESSES: microservicios-rabbitmq38:5672
+networks:
+  springcloud:
