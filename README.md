@@ -1,4 +1,4 @@
-###Tecnologias utilizadas
+# Tecnologias utilizadas
 
 - Spring boot 2
 - Spring security
@@ -12,7 +12,7 @@
 - Docker (container)
 
 
-###Docker commands
+# Docker commands
 
 #### Config service
 
